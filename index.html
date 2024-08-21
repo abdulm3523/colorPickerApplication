@@ -6,7 +6,8 @@
     <title>Color Picker</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="src/style.css">
+    <!-- <link rel="stylesheet" href="src/style.css"> -->
+     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
     <section id="colorPicker__section">
@@ -17,11 +18,11 @@
             <!-- ACTION BUTTONS -->
             <div class="action__btns">
                 <!-- COLOR GENERATOR BUTTON -->
-                <button class="btn" id="generate__color">Generate Color <i class="bi bi-stars"></i></button>
+                <button class="btn items" id="generate__color">Generate Color <i class="bi bi-stars"></i></button>
                 <!-- COLOR COPY BUTTON  -->
-                <button  class="btn" id="copyColor">Copy Code <i class="bi bi-copy"></i><span id="coppiedMsg">Coppied!</span> </button>
+                <button  class="btn items" id="copyColor">Copy Code <i class="bi bi-copy"></i><span id="coppiedMsg">Coppied!</span> </button>
                  <!-- CHOOSE COLOR MODE OPTION -->
-                <select name="" id="">
+                <select name="" id="" class="items">
                     <option value="HEX" selected id="hex__colorMode">HEX</option>
                     <option value="RGB" id="rgb__colorMode">RGB</option>
                 </select>
@@ -57,6 +58,13 @@
                         <input type="range" id="colorVolume__blue" value="254" max="255">
                     </div>
                 </div>
+
+                <!-- COLOR PRESET -->
+                <div class="color__preset">
+                    <h2>Color Presets</h2>
+                    <div class="color_container"  id="color__preset">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -72,5 +80,6 @@
         
     </footer>
     <script src="src/app.js"></script>
+     <!-- <script src="app.js"></script> -->
 </body>
 </html>
