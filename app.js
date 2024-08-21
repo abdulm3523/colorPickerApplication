@@ -4,10 +4,47 @@
  * AUTHOR: ABDUL MALIK
  */
 
+
+
+// COLOR PRESETS
+const colorPreset =[
+    '#e6b0aa',
+    '#d7bde2',
+    '#d2b4de',
+    '#a9cce3',
+    '#a3e4d7',
+    '#abebc6',
+    '#f9e79f',
+    '#fad7a0',
+    '#d5dbdb',
+    '#aeb6bf',
+    '#abb2b9',
+    '#273746',
+    '#616a6b',
+    '#d68910',
+    '#2874a6',
+    '#943126',
+    '#fad7a0',
+    '#d5dbdb',
+    '#aeb6bf',
+    '#a3e4d7'
+
+];
+const displayColorPreset = document.getElementById('color__preset')
+
 // window on load function
 window.onload = () =>{
- main()
+    main()
+    generateColorPreset(colorPreset)
+    // createPrecetDomElement()
 }
+
+
+
+// COLOR MODE COPY SELECTION
+const hexColorMode = document.getElementById('hex__colorMode')
+const rgbColorMode = document.getElementById('rgb__colorMode')
+const coppiedMsg = document.getElementById('coppiedMsg')
 
 // MIAN FUNCTION
 function main(){
@@ -15,38 +52,17 @@ function main(){
     const hexColor = document.getElementById('hexColor')
     const rgbColor = document.getElementById('rgbColor')
     const copyColor = document.getElementById('copyColor')
-    const coppiedMsg = document.getElementById('coppiedMsg')
+
     // COLOR RANGE SELECTOR
     const redColorRange = document.getElementById('colorVolume__red')
     const greenColorRange = document.getElementById('colorVolume__green')
     const blueColorRange = document.getElementById('colorVolume__blue')
 
-    // COLOR MODE COPY SELECTION
-    const hexColorMode = document.getElementById('hex__colorMode')
-    const rgbColorMode = document.getElementById('rgb__colorMode')
-
-
     // GENERATE BUTTON ON CLICK EVENT
     generateBtn.addEventListener('click', colorGeneratorBtnHandaler)
 
     // INPUT COLOR ON EDIT EVENT
-    hexColor.addEventListener('keyup',function(eventValue){
-        const backgoundChange = document.getElementById('rendom__bg_color')
-        const rgbColor = document.getElementById('rgbColor')
-        const hexColorCode = eventValue.target.value
-
-        if(hexColorCode){
-            hexColor.value = hexColorCode.toUpperCase()
-            if(isValidColor(hexColorCode)){
-                const hexToDecimalCode = hexToRgbgGenerate(hexColorCode)
-                const rgbColorGen = generateRgbColor(hexToDecimalCode)
-                backgoundChange.style.backgroundColor = `#${hexColorCode}`
-                rgbColor.value = `(${rgbColorGen})`
-            }
-        }
-
-    })
-
+    hexColor.addEventListener('keyup',hexCodeInputEventHenaler)
 
     // COLOR RANGE ON CHANGE EVENT
     redColorRange.addEventListener('change', colorRangeHandaler(redColorRange,greenColorRange,blueColorRange))
@@ -54,29 +70,32 @@ function main(){
     blueColorRange.addEventListener('change', colorRangeHandaler(redColorRange,greenColorRange,blueColorRange))
 
     // // COPY COLOR CODE BASED ON SELECTION
-    copyColor.addEventListener('click',function(){
-        if(hexColorMode.selected){
-            navigator.clipboard.writeText(`#${hexColor.value}`)
-            // console.log(`#${hexColor.value}`)
-            coppiedMsg.style.display = 'block'
-            setTimeout(function(){
-                coppiedMsg.style.display = 'none'
-            },400)
-        }else{
-            window.navigator.clipboard.writeText(`rgb${rgbColor.value}`)
-            coppiedMsg.style.display = 'block'
-            setTimeout(function(){
-                coppiedMsg.style.display = 'none'
-            },400)
-        }
-    })
+    copyColor.addEventListener('click',copyButtonClickEventHendaler)
 
+    // COLOR PRESET CODE COPY EVENT
+    displayColorPreset.addEventListener('click',presetColorCopyHandel)
+    
 
 }
 
-// EVENT HANDELAR FUNCTION
+// EVENTS HANDELARS
 
-// COLOR CODE HANDALER
+
+// COLOR PRESET CODE COPY EVENT HENDELAR
+function presetColorCopyHandel(){
+    const chileColors = event.target
+    if(chileColors.className == 'color__box'){
+        navigator.clipboard.writeText(chileColors.getAttribute('data-color'))
+        const message = chileColors.children
+        message[0].style.display = 'block'
+        setTimeout(function(){
+            message[0].style.display = 'none'
+        },400)
+
+    }
+
+}
+// COLOR CODE GENERATOR BUTTON HANDALER
 function colorGeneratorBtnHandaler(){
     const decimalCode = generateDecimalNumber()
     updateDom(decimalCode)
@@ -94,6 +113,42 @@ function colorRangeHandaler(redColorRange,greenColorRange,blueColorRange){
         return updateDom(color)
     }
 }
+
+// HEX CODE INPUT FILED EDIT EVENT HENDALER
+
+function hexCodeInputEventHenaler(eventValue){
+    const backgoundChange = document.getElementById('rendom__bg_color')
+    const rgbColor = document.getElementById('rgbColor')
+    const hexColorCode = eventValue.target.value
+
+    if(hexColorCode){
+        hexColor.value = hexColorCode.toUpperCase()
+        if(isValidColor(hexColorCode)){
+            const hexToDecimalCode = hexToRgbgGenerate(hexColorCode)
+            const rgbColorGen = generateRgbColor(hexToDecimalCode)
+            backgoundChange.style.backgroundColor = `#${hexColorCode}`
+            rgbColor.value = `(${rgbColorGen})`
+        }
+    }
+}
+
+function copyButtonClickEventHendaler(){
+    if(hexColorMode.selected){
+        navigator.clipboard.writeText(`#${hexColor.value}`)
+        // console.log(`#${hexColor.value}`)
+        coppiedMsg.style.display = 'block'
+        setTimeout(function(){
+            coppiedMsg.style.display = 'none'
+        },400)
+    }else{
+        window.navigator.clipboard.writeText(`rgb${rgbColor.value}`)
+        coppiedMsg.style.display = 'block'
+        setTimeout(function(){
+            coppiedMsg.style.display = 'none'
+        },400)
+    }
+}
+
 
 
 
@@ -123,6 +178,33 @@ function updateDom(color){
     greenColorRange.value = color.green
     blueColorRange.value = color.blue
 }
+
+/**
+ * CREATE PRECET DOM ELEMENT
+ * @param {string} presetColor
+ */
+
+function createPrecetDomElement(colorCode){
+    const div = document.createElement('div')
+    const span = document.createElement('span')
+
+    // set class name
+    div.className = 'color__box'
+    span.className = 'copy_msg'
+    span.id = 'copy_msg'
+    span.innerHTML = 'Coppyed!'
+    // const dataColor = colorCode
+    // set attributes
+    div.setAttribute('data-color',`${colorCode}`)
+    // PUSH SPAN on DIV
+    div.appendChild(span)
+    div.style.backgroundColor = colorCode
+    // console.log(colorCode)
+
+    displayColorPreset.appendChild(div)
+    return displayColorPreset
+}
+
 
 
 // UTILITIES FUNCTION
@@ -180,6 +262,18 @@ function hexToRgbgGenerate(hexColor){
     blue
    }
 
+}
+
+/**
+ * GENERATING COLOR PRESET FROM ARRAY
+ * @param {Array} color
+ */
+
+function generateColorPreset(color){
+  return color.forEach((colorValue,index)=>{
+        createPrecetDomElement(`${colorValue}`)
+        // console.log(`'${colorValue}'`)
+    })
 }
 
 /**
