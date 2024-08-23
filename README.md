@@ -22,8 +22,10 @@ Generate a Random Color: Click on the "Generate Color" button to generate a rand
 Copy Color Code: Click the "Copy Code" button to copy the HEX value to your clipboard.<br>
 Adjust Colors: Use the sliders to adjust the Red, Green, and Blue values and customize the color to your preference.<br>
 
-# License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+# Technologies Used
+𝗛𝗧𝗠𝗟: For the structure of the web page.
+𝗖𝗦𝗦: For styling the application.
+𝗝𝗮𝘃𝗮𝗦𝗰𝗿𝗶𝗽𝘁: For handling the logic and DOM manipulation.
 
 # Credits
 Developed by Abdulmalik.
